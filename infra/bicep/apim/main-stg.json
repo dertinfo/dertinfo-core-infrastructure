@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ownerInitials": {
+      "value": "di"
+    },
+    "workloadName": {
+      "value": "integration"
+    },
+    "applicationInsightsName": {
+      "value": "dertinfo-test-ais"
+    },
+    "applicationInsightsResourceGroupName": {
+      "value": "di-rg-monitoring-stg"
+    },
+    "environmentTag": {
+      "value": "stg"
+    },
+    "publisherEmail": {
+      "value": "dertinfo@gmail.com"
+    },
+    "publisherName": {
+      "value": "DertInfo"
+    }
+  }
+}
