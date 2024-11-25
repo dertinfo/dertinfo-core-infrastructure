@@ -1,0 +1,32 @@
+<policies>
+    <inbound>
+        <cors>
+            <allowed-origins>
+                <origin>https://staging.dertinfo.co.uk/</origin>
+                <origin>https://app-staging.dertinfo.co.uk/</origin>
+            </allowed-origins>
+            <allowed-methods>
+                <method>*</method>
+            </allowed-methods>
+            <allowed-headers>
+                <header>*</header>
+            </allowed-headers>
+        </cors>
+    </inbound>
+    <backend>
+        <forward-request />
+    </backend>
+    <outbound>
+        <set-header name="Access-Control-Allow-Origin" exists-action="override">
+            <value>https://staging.dertinfo.co.uk/</value>
+            <value>https://app-staging.dertinfo.co.uk/</value>
+        </set-header>
+        <set-header name="Access-Control-Allow-Methods" exists-action="override">
+            <value>GET, POST, OPTIONS</value>
+        </set-header>
+        <set-header name="Access-Control-Allow-Headers" exists-action="override">
+            <value>*</value>
+        </set-header>
+    </outbound>
+    <on-error />
+</policies>
