@@ -1,0 +1,67 @@
+# Pipeline for deploying changes to the APIM instance
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - infra/**
+pr:
+  branches:
+    exclude:
+      - '*'
+
+variables:
+  - group: DertInfoAPIMIntegration_VariablesGroup
+
+stages:
+  - stage: Test
+    displayName: Deploy to Test
+    jobs:
+      - job: DeployTest
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: '$(SubscriptionReference_Stg)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create \
+                  --resource-group $(ResourceGroupName_Stg) \
+                  --template-file main.bicep \
+                  --parameters ownerInitials=$(OwnerInitials) \
+                               workloadName=$(WorkloadName) \
+                               applicationInsightsName=$(ApplicationInsightsName_Stg) \
+                               applicationInsightsResourceGroupName=$(ApplicationInsightsResourceGroupName_Stg) \
+                               environmentTag=$(EnvironmentTag_Stg) \
+                               publisherEmail=$(PublisherEmail) \
+                               publisherName=$(PublisherName) 
+
+  - stage: Live
+    displayName: Deploy to Live
+    dependsOn: Test
+    jobs:
+      - job: DeployLive
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: '$(SubscriptionReference_Prod)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create \
+                  --resource-group $(ResourceGroupName_Prod) \
+                  --template-file main.bicep \
+                  --parameters ownerInitials=$(OwnerInitials) \
+                               workloadName=$(WorkloadName) \
+                               applicationInsightsName=$(ApplicationInsightsName_Prod) \
+                               applicationInsightsResourceGroupName=$(ApplicationInsightsResourceGroupName_Prod) \
+                               environmentTag=$(EnvironmentTag_Prod) \
+                               publisherEmail=$(PublisherEmail) \
+                               publisherName=$(PublisherName)
+

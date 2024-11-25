@@ -10,13 +10,6 @@ Individual APIs are attached to the APIM instance via the IaC defined against th
 ```
 az login --tenant [TenantId]
 az account set --subscription [SubscriptionId]
-az group create --name di-rg-apim-core-[env] --location uksouth
-az deployment group create --resource-group di-rg-apim-core-[env] --template-file main.bicep --parameters @main-[env].json
-```
-
-### For Staging
-```
-cd infra/bicep/apim
-az group create --name di-rg-apim-integration-stg --location uksouth
-az deployment group create --resource-group di-rg-apim-integration-stg --template-file main.bicep --parameters main-stg.json
+az group create --name [ResourceGroupName] --location [Location]
+az deployment group create --resource-group [ResourceGroupName] --template-file main.bicep --parameters @main-[env].json
 ```
