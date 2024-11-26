@@ -33,27 +33,27 @@ stages:
           vmImage: $(vmImageName)
         steps:
           - script: |
-              echo Build.SourceBranch: $(Build.SourceBranch)
-              echo The Build.Reason: $(Build.Reason)
-              echo The Build.ArtifactStagingDirectory: $(Build.ArtifactStagingDirectory)
-              echo The Build.BuildNumber: $(Build.BuildNumber)
-              echo SubscriptionReference_Stg: $(SubscriptionReference_Stg)
-              echo SubscriptionReference_Prod: $(SubscriptionReference_Prod)
-              echo ResourceGroupName_Stg: $(ResourceGroupName_Stg)
-              echo ResourceGroupName_Prod: $(ResourceGroupName_Prod)
-              echo location: $(location)
-              echo templateFile: $(templateFile)
-              echo csmParametersFile: $(csmParametersFile)
-              echo OwnerInitials: $(OwnerInitials)
-              echo WorkloadName: $(WorkloadName)
-              echo ApplicationInsightsName_Stg: $(ApplicationInsightsName_Stg)
-              echo ApplicationInsightsName_Prod: $(ApplicationInsightsName_Prod)
-              echo ApplicationInsightsResourceGroupName_Stg: $(ApplicationInsightsResourceGroupName_Stg)
-              echo ApplicationInsightsResourceGroupName_Prod: $(ApplicationInsightsResourceGroupName_Prod)
-              echo EnvironmentTag_Stg: $(EnvironmentTag_Stg)
-              echo EnvironmentTag_Prod: $(EnvironmentTag_Prod)
-              echo PublisherEmail: $(PublisherEmail)
-              echo PublisherName: $(PublisherName)
+              echo Build.SourceBranch: '$(Build.SourceBranch)'
+              echo The Build.Reason: '$(Build.Reason)'
+              echo The Build.ArtifactStagingDirectory: '$(Build.ArtifactStagingDirectory)'
+              echo The Build.BuildNumber: '$(Build.BuildNumber)'
+              echo SubscriptionReference_Stg:'$(SubscriptionReference_Stg)'
+              echo SubscriptionReference_Prod: '$(SubscriptionReference_Prod)'
+              echo ResourceGroupName_Stg: '$(ResourceGroupName_Stg)'
+              echo ResourceGroupName_Prod: '$(ResourceGroupName_Prod)'
+              echo location: '$(location)'
+              echo templateFile: '$(templateFile)'
+              echo csmParametersFile: '$(csmParametersFile)'
+              echo OwnerInitials: '$(OwnerInitials)'
+              echo WorkloadName: '$(WorkloadName)'
+              echo ApplicationInsightsName_Stg: '$(ApplicationInsightsName_Stg)'
+              echo ApplicationInsightsName_Prod: '$(ApplicationInsightsName_Prod)'
+              echo ApplicationInsightsResourceGroupName_Stg: '$(ApplicationInsightsResourceGroupName_Stg)'
+              echo ApplicationInsightsResourceGroupName_Prod: '$(ApplicationInsightsResourceGroupName_Prod)'
+              echo EnvironmentTag_Stg: '$(EnvironmentTag_Stg)'
+              echo EnvironmentTag_Prod: '$(EnvironmentTag_Prod)'
+              echo PublisherEmail: '$(PublisherEmail)'
+              echo PublisherName: '$(PublisherName)'
             displayName: 'Output build variables'
             
   - stage: Test
