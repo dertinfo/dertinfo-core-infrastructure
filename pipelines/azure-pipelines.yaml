@@ -16,24 +16,21 @@ name: Deploy APIM Integration Infrastructure
 
 variables:
   - group: DertInfoAPIMIntegration_VariablesGroup
-  vmImageName: 'ubuntu-latest'
-  location: uksouth
-  templateFile: './main.bicep'
-  csmParametersFile: './main.parameters.json'
+  
 
 stages:
   - stage: Test
     displayName: Deploy to Test
     jobs:
-      - job: Create Resource Group & Deploy (Staging)
+      - job: Deploy_To_Test
         pool:
           vmImage: vmImageName
         steps:
         - task: AzureResourceManagerTemplateDeployment@3
           inputs:
+            azureResourceManagerConnection: '$(SubscriptionReference_Stg)'
             deploymentScope: 'Resource Group'
-            azureSubscription: '$(SubscriptionReference_Stg)'
-            action: 'Create Or Update Resource Group (Staging)'
+            action: 'Create Or Update Resource Group'
             resourceGroupName: '$(ResourceGroupName_Stg)'
             location: '$(location)'
             templateLocation: 'Linked artifact'
@@ -54,15 +51,15 @@ stages:
     displayName: Deploy to Live
     dependsOn: Test
     jobs:
-      - job: Create Resource Group & Deploy (Production)
+      - job: Deploy_To_Live
         pool:
           vmImage: vmImageName
         steps:
         - task: AzureResourceManagerTemplateDeployment@3
           inputs:
+            azureResourceManagerConnection: $(SubscriptionReference_Prod)
             deploymentScope: 'Resource Group'
-            azureSubscription: '$(SubscriptionReference_Prod)'
-            action: 'Create Or Update Resource Group (Production)'
+            action: 'Create Or Update Resource Group'
             resourceGroupName: '$(ResourceGroupName_Prod)'
             location: '$(location)'
             templateLocation: 'Linked artifact'
