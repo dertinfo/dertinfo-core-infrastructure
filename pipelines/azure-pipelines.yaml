@@ -76,12 +76,12 @@ stages:
             deploymentMode: 'Incremental'
             deploymentName: 'Deploy-Integration-APIM' 
             overrideParameters: |
-              -ownerInitials "$(OwnerInitials)" \
-              -workloadName "$(WorkloadName)" \
-              -applicationInsightsName "$(ApplicationInsightsName_Stg)" \
-              -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Stg)" \
-              -environmentTag "$(EnvironmentTag_Stg)" \
-              -publisherEmail "$(PublisherEmail)" \
+              -ownerInitials "$(OwnerInitials)"
+              -workloadName "$(WorkloadName)"
+              -applicationInsightsName "$(ApplicationInsightsName_Stg)"
+              -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Stg)"
+              -environmentTag "$(EnvironmentTag_Stg)"
+              -publisherEmail "$(PublisherEmail)"
               -publisherName "$(PublisherName)"
 
   - stage: Live
@@ -105,11 +105,11 @@ stages:
             deploymentMode: 'Incremental'
             deploymentName: 'Deploy-Integration-APIM' 
             overrideParameters: |
-              -ownerInitials "$(OwnerInitials)" \
-              -workloadName "$(WorkloadName)" \
-              -applicationInsightsName "$(ApplicationInsightsName_Prod)" \
-              -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Prod)" \
-              -environmentTag "$(EnvironmentTag_Prod)" \
-              -publisherEmail "$(PublisherEmail)" \
+              -ownerInitials "$(OwnerInitials)"
+              -workloadName "$(WorkloadName)"
+              -applicationInsightsName "$(ApplicationInsightsName_Prod)"
+              -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Prod)"
+              -environmentTag "$(EnvironmentTag_Prod)"
+              -publisherEmail "$(PublisherEmail)"
               -publisherName "$(PublisherName)"
 
