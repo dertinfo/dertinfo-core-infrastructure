@@ -23,9 +23,7 @@ variables:
   - name: templateFile
     value: './main.bicep'
   - name: csmParametersFile
-    value: './main.parameters.json'
-
-  
+    value: './main.parameters.json' 
 
 stages:
   - stage: Test
