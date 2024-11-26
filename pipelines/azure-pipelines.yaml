@@ -16,6 +16,15 @@ name: Deploy APIM Integration Infrastructure
 
 variables:
   - group: DertInfoAPIMIntegration_VariablesGroup
+  - name: 'ubuntu-latest'
+    value: ubuntu-latest
+  - name: location
+    value: uksouth
+  - name: templateFile
+    value: './main.bicep'
+  - name: csmParametersFile
+    value: './main.parameters.json'
+
   
 
 stages:
