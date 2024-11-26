@@ -12,56 +12,70 @@ pr:
     exclude:
       - '*'
 
+name: Deploy APIM Integration Infrastructure
+
 variables:
   - group: DertInfoAPIMIntegration_VariablesGroup
+  vmImageName: 'ubuntu-latest'
+  location: uksouth
+  templateFile: './main.bicep'
+  csmParametersFile: './main.parameters.json'
 
 stages:
   - stage: Test
     displayName: Deploy to Test
     jobs:
-      - job: DeployTest
+      - job: Create Resource Group & Deploy (Staging)
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: vmImageName
         steps:
-          - task: AzureCLI@2
-            inputs:
-              azureSubscription: '$(SubscriptionReference_Stg)'
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                az deployment group create \
-                  --resource-group $(ResourceGroupName_Stg) \
-                  --template-file main.bicep \
-                  --parameters ownerInitials=$(OwnerInitials) \
-                               workloadName=$(WorkloadName) \
-                               applicationInsightsName=$(ApplicationInsightsName_Stg) \
-                               applicationInsightsResourceGroupName=$(ApplicationInsightsResourceGroupName_Stg) \
-                               environmentTag=$(EnvironmentTag_Stg) \
-                               publisherEmail=$(PublisherEmail) \
-                               publisherName=$(PublisherName) 
+        - task: AzureResourceManagerTemplateDeployment@3
+          inputs:
+            deploymentScope: 'Resource Group'
+            azureSubscription: '$(SubscriptionReference_Stg)'
+            action: 'Create Or Update Resource Group (Staging)'
+            resourceGroupName: '$(ResourceGroupName_Stg)'
+            location: '$(location)'
+            templateLocation: 'Linked artifact'
+            csmFile: '$(templateFile)'
+            csmParametersFile: '$(csmParametersFile)'
+            deploymentMode: 'Incremental'
+            deploymentName: 'Deploy Integration APIM' 
+            overrideParameters: |
+              -ownerInitials $(OwnerInitials) \
+              -workloadName $(WorkloadName) \
+              -applicationInsightsName $(ApplicationInsightsName_Stg) \
+              -applicationInsightsResourceGroupName $(ApplicationInsightsResourceGroupName_Stg) \
+              -environmentTag $(EnvironmentTag_Stg) \
+              -publisherEmail $(PublisherEmail) \
+              -publisherName $(PublisherName)
 
   - stage: Live
     displayName: Deploy to Live
     dependsOn: Test
     jobs:
-      - job: DeployLive
+      - job: Create Resource Group & Deploy (Production)
         pool:
-          vmImage: 'ubuntu-latest'
+          vmImage: vmImageName
         steps:
-          - task: AzureCLI@2
-            inputs:
-              azureSubscription: '$(SubscriptionReference_Prod)'
-              scriptType: 'bash'
-              scriptLocation: 'inlineScript'
-              inlineScript: |
-                az deployment group create \
-                  --resource-group $(ResourceGroupName_Prod) \
-                  --template-file main.bicep \
-                  --parameters ownerInitials=$(OwnerInitials) \
-                               workloadName=$(WorkloadName) \
-                               applicationInsightsName=$(ApplicationInsightsName_Prod) \
-                               applicationInsightsResourceGroupName=$(ApplicationInsightsResourceGroupName_Prod) \
-                               environmentTag=$(EnvironmentTag_Prod) \
-                               publisherEmail=$(PublisherEmail) \
-                               publisherName=$(PublisherName)
+        - task: AzureResourceManagerTemplateDeployment@3
+          inputs:
+            deploymentScope: 'Resource Group'
+            azureSubscription: '$(SubscriptionReference_Prod)'
+            action: 'Create Or Update Resource Group (Production)'
+            resourceGroupName: '$(ResourceGroupName_Prod)'
+            location: '$(location)'
+            templateLocation: 'Linked artifact'
+            csmFile: '$(templateFile)'
+            csmParametersFile: '$(csmParametersFile)'
+            deploymentMode: 'Incremental'
+            deploymentName: 'Deploy Integration APIM' 
+            overrideParameters: |
+              -ownerInitials $(OwnerInitials) \
+              -workloadName $(WorkloadName) \
+              -applicationInsightsName $(ApplicationInsightsName_Prod) \
+              -applicationInsightsResourceGroupName $(ApplicationInsightsResourceGroupName_Prod) \
+              -environmentTag $(EnvironmentTag_Prod) \
+              -publisherEmail $(PublisherEmail) \
+              -publisherName $(PublisherName)
 
