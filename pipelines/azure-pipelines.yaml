@@ -44,7 +44,7 @@ stages:
             csmFile: '$(templateFile)'
             csmParametersFile: '$(csmParametersFile)'
             deploymentMode: 'Incremental'
-            deploymentName: 'Deploy Integration APIM' 
+            deploymentName: 'Deploy-Integration-APIM' 
             overrideParameters: |
               -ownerInitials $(OwnerInitials) \
               -workloadName $(WorkloadName) \
@@ -73,7 +73,7 @@ stages:
             csmFile: '$(templateFile)'
             csmParametersFile: '$(csmParametersFile)'
             deploymentMode: 'Incremental'
-            deploymentName: 'Deploy Integration APIM' 
+            deploymentName: 'Deploy-Integration-APIM' 
             overrideParameters: |
               -ownerInitials $(OwnerInitials) \
               -workloadName $(WorkloadName) \
