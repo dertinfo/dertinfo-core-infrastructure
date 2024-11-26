@@ -12,7 +12,7 @@ pr:
     exclude:
       - '*'
 
-name: Deploy APIM Integration Infrastructure
+name: Deploy_APIM_Integration_Infrastructure
 
 variables:
   - group: DertInfoAPIMIntegration_VariablesGroup
