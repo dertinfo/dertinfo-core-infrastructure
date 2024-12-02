@@ -93,8 +93,8 @@ stages:
                   resourceGroupName: '$(ResourceGroupName_Stg)'
                   location: '$(location)'
                   templateLocation: 'Linked artifact'
-                  csmFile: '$(templateFile)'
-                  csmParametersFile: '$(csmParametersFile)'
+                  csmFile: '$(Pipeline.Workspace)/infra/**/$(templateFile)'
+                  csmParametersFile: '$(Pipeline.Workspace)/infra/**/$(csmParametersFile)'
                   deploymentMode: 'Incremental'
                   deploymentName: 'Deploy-Integration-APIM' 
                   overrideParameters: -ownerInitials "$(OwnerInitials)" -workloadName "$(WorkloadName)" -applicationInsightsName "$(ApplicationInsightsName_Stg)" -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Stg)" -environmentTag "$(EnvironmentTag_Stg)" -publisherEmail "$(PublisherEmail)" -publisherName "$(PublisherName)"
@@ -121,8 +121,8 @@ stages:
                   resourceGroupName: '$(ResourceGroupName_Prod)'
                   location: '$(location)'
                   templateLocation: 'Linked artifact'
-                  csmFile: '$(templateFile)'
-                  csmParametersFile: '$(csmParametersFile)'
+                  csmFile: '$(Pipeline.Workspace)/infra/**/$(templateFile)'
+                  csmParametersFile: '$(Pipeline.Workspace)/infra/**/$(csmParametersFile)'
                   deploymentMode: 'Incremental'
                   deploymentName: 'Deploy-Integration-APIM' 
                   overrideParameters: -ownerInitials "$(OwnerInitials)" -workloadName "$(WorkloadName)" -applicationInsightsName "$(ApplicationInsightsName_Prod)" -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Prod)" -environmentTag "$(EnvironmentTag_Prod)" -publisherEmail "$(PublisherEmail)" -publisherName "$(PublisherName)"
