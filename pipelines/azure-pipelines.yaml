@@ -15,7 +15,7 @@ pr:
 name: Deploy_APIM_Integration_Infrastructure
 
 variables:
-  - group: DertInfoAPIMIntegration_VariablesGroup
+  - group: APIM_Deployment_VariablesGroup
   - name: vmImageName
     value: 'ubuntu-latest'
   - name: location
