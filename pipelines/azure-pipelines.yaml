@@ -55,7 +55,23 @@ stages:
               echo PublisherEmail: '$(PublisherEmail)'
               echo PublisherName: '$(PublisherName)'
             displayName: 'Output build variables'
-            
+          - script: |
+              echo "Listing files in the artifact directory"
+              ls -R $(System.DefaultWorkingDirectory)
+
+  - stage: PublishInfraAsArtefact
+    displayName: 'Publish Infra Artefact'
+    jobs:
+    - job: Publish_Infra_Artefact
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathToPublish: '$(System.DefaultWorkingDirectory)/infra'
+          ArtifactName: 'infra'
+          publishLocation: 'Container'
+
   - stage: Test
     displayName: Deploy to Test
     jobs:
@@ -67,6 +83,8 @@ stages:
           runOnce:
             deploy:
              steps:
+             - download: current
+               artifact: infra
              - task: AzureResourceManagerTemplateDeployment@3
                inputs:
                   azureResourceManagerConnection: '$(SubscriptionReference_Stg)'
@@ -93,6 +111,8 @@ stages:
           runOnce:
             deploy:
               steps:
+              - download: current
+                artifact: infra
               - task: AzureResourceManagerTemplateDeployment@3
                 inputs:
                   azureResourceManagerConnection: $(SubscriptionReference_Prod)
