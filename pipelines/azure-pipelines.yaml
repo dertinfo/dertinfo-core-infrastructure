@@ -62,6 +62,7 @@ stages:
       - job: Deploy_To_Test
         pool:
           vmImage: $(vmImageName)
+        environment: Test
         steps:
         - task: AzureResourceManagerTemplateDeployment@3
           inputs:
@@ -84,6 +85,7 @@ stages:
       - job: Deploy_To_Live
         pool:
           vmImage: $(vmImageName)
+        environment: Live
         steps:
         - task: AzureResourceManagerTemplateDeployment@3
           inputs:
