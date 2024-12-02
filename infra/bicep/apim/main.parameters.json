@@ -9,19 +9,19 @@
       "value": "integration"
     },
     "applicationInsightsName": {
-      "value": "dertinfo-test-ais"
+      "value": "my-application-insights"
     },
     "applicationInsightsResourceGroupName": {
-      "value": "di-rg-monitoring-stg"
+      "value": "my-application-insights-resource-group"
     },
     "environmentTag": {
-      "value": "stg"
+      "value": "dev"
     },
     "publisherEmail": {
-      "value": "dertinfo@gmail.com"
+      "value": "my@email.com"
     },
     "publisherName": {
-      "value": "DertInfo"
+      "value": "myOrg"
     }
   }
 }
