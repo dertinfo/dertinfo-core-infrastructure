@@ -59,45 +59,51 @@ stages:
   - stage: Test
     displayName: Deploy to Test
     jobs:
-      - job: Deploy_To_Test
+      - deployment: Deploy_To_Test
         pool:
           vmImage: $(vmImageName)
         environment: Test
-        steps:
-        - task: AzureResourceManagerTemplateDeployment@3
-          inputs:
-            azureResourceManagerConnection: '$(SubscriptionReference_Stg)'
-            deploymentScope: 'Resource Group'
-            action: 'Create Or Update Resource Group'
-            resourceGroupName: '$(ResourceGroupName_Stg)'
-            location: '$(location)'
-            templateLocation: 'Linked artifact'
-            csmFile: '$(templateFile)'
-            csmParametersFile: '$(csmParametersFile)'
-            deploymentMode: 'Incremental'
-            deploymentName: 'Deploy-Integration-APIM' 
-            overrideParameters: -ownerInitials "$(OwnerInitials)" -workloadName "$(WorkloadName)" -applicationInsightsName "$(ApplicationInsightsName_Stg)" -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Stg)" -environmentTag "$(EnvironmentTag_Stg)" -publisherEmail "$(PublisherEmail)" -publisherName "$(PublisherName)"
+        strategy:
+          runOnce:
+            deploy:
+             steps:
+             - task: AzureResourceManagerTemplateDeployment@3
+               inputs:
+                  azureResourceManagerConnection: '$(SubscriptionReference_Stg)'
+                  deploymentScope: 'Resource Group'
+                  action: 'Create Or Update Resource Group'
+                  resourceGroupName: '$(ResourceGroupName_Stg)'
+                  location: '$(location)'
+                  templateLocation: 'Linked artifact'
+                  csmFile: '$(templateFile)'
+                  csmParametersFile: '$(csmParametersFile)'
+                  deploymentMode: 'Incremental'
+                  deploymentName: 'Deploy-Integration-APIM' 
+                  overrideParameters: -ownerInitials "$(OwnerInitials)" -workloadName "$(WorkloadName)" -applicationInsightsName "$(ApplicationInsightsName_Stg)" -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Stg)" -environmentTag "$(EnvironmentTag_Stg)" -publisherEmail "$(PublisherEmail)" -publisherName "$(PublisherName)"
 
   - stage: Live
     displayName: Deploy to Live
     dependsOn: Test
     jobs:
-      - job: Deploy_To_Live
+      - deployment: Deploy_To_Live
         pool:
           vmImage: $(vmImageName)
         environment: Live
-        steps:
-        - task: AzureResourceManagerTemplateDeployment@3
-          inputs:
-            azureResourceManagerConnection: $(SubscriptionReference_Prod)
-            deploymentScope: 'Resource Group'
-            action: 'Create Or Update Resource Group'
-            resourceGroupName: '$(ResourceGroupName_Prod)'
-            location: '$(location)'
-            templateLocation: 'Linked artifact'
-            csmFile: '$(templateFile)'
-            csmParametersFile: '$(csmParametersFile)'
-            deploymentMode: 'Incremental'
-            deploymentName: 'Deploy-Integration-APIM' 
-            overrideParameters: -ownerInitials "$(OwnerInitials)" -workloadName "$(WorkloadName)" -applicationInsightsName "$(ApplicationInsightsName_Prod)" -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Prod)" -environmentTag "$(EnvironmentTag_Prod)" -publisherEmail "$(PublisherEmail)" -publisherName "$(PublisherName)"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - task: AzureResourceManagerTemplateDeployment@3
+                inputs:
+                  azureResourceManagerConnection: $(SubscriptionReference_Prod)
+                  deploymentScope: 'Resource Group'
+                  action: 'Create Or Update Resource Group'
+                  resourceGroupName: '$(ResourceGroupName_Prod)'
+                  location: '$(location)'
+                  templateLocation: 'Linked artifact'
+                  csmFile: '$(templateFile)'
+                  csmParametersFile: '$(csmParametersFile)'
+                  deploymentMode: 'Incremental'
+                  deploymentName: 'Deploy-Integration-APIM' 
+                  overrideParameters: -ownerInitials "$(OwnerInitials)" -workloadName "$(WorkloadName)" -applicationInsightsName "$(ApplicationInsightsName_Prod)" -applicationInsightsResourceGroupName "$(ApplicationInsightsResourceGroupName_Prod)" -environmentTag "$(EnvironmentTag_Prod)" -publisherEmail "$(PublisherEmail)" -publisherName "$(PublisherName)"
 
