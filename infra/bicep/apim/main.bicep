@@ -43,7 +43,7 @@ param publisherName string
 // Build the names for the resources
 var uniqueStr = substring(uniqueString(resourceGroup().id),0,4)
 var apimInstanceName = '${ownerInitials}-${uniqueStr}-apim-${workloadName}-${environmentTag}'
-var backupStorageName = '${ownerInitials}${uniqueStr}sa${workloadName}${environmentTag}'
+var backupStorageName = '${ownerInitials}${uniqueStr}saapimbackup${environmentTag}'
 
 // #####################################################
 // References
@@ -100,10 +100,17 @@ module apiManagementService 'br/public:avm/res/api-management/service:0.6.0' = {
   }
 }
 
+/*
+  The backup storage account for the APIM instance.
+  Notes
+  - GRS chosen as backup account to allow for recovery to secondary region
+*/
 module backupStorage 'br/public:avm/res/storage/storage-account:0.15.2' = {
   name: 'backupStorageDeployment'
   params: {
     name: backupStorageName
+    skuName: 'Standard_GRS'
+    location: resourceGroup().location
     tags: {
       environment: environmentTag
     }
