@@ -43,6 +43,7 @@ param publisherName string
 // Build the names for the resources
 var uniqueStr = substring(uniqueString(resourceGroup().id),0,4)
 var apimInstanceName = '${ownerInitials}-${uniqueStr}-apim-${workloadName}-${environmentTag}'
+var backupStorageName = '${ownerInitials}${uniqueStr}sa${workloadName}${environmentTag}'
 
 // #####################################################
 // References
@@ -96,5 +97,15 @@ module apiManagementService 'br/public:avm/res/api-management/service:0.6.0' = {
         value: loadTextContent('./apim-policy.xml')
       }
     ]
+  }
+}
+
+module backupStorage 'br/public:avm/res/storage/storage-account:0.15.2' = {
+  name: 'backupStorageDeployment'
+  params: {
+    name: backupStorageName
+    tags: {
+      environment: environmentTag
+    }
   }
 }
