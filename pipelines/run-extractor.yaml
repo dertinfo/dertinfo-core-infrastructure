@@ -25,14 +25,16 @@ parameters:
     values:
       - Extract All
       - configuration.extractor.yaml
+    default: Extract All
   - name: API_SPECIFICATION_FORMAT
     type: string
     displayName: API Specification Format
     values:
-      - OpenAPIV3Yaml
       - OpenAPIV3Json
+      - OpenAPIV3Yaml
       - OpenAPIV2Yaml
       - OpenAPIV2Json
+    default: OpenAPIV3Json
 
 trigger: none
 
